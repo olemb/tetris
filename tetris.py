@@ -10,12 +10,12 @@ import tkinter
 
 shapes = {
     #
-    # 4x4   3x3  Example (T)
+    # Example (T)
     #
-    # 0123  012  .1..
-    # 4567  456  456. = 1456
-    # 89ab  89a  ....
-    # cdef       ....
+    # 0123  .1..
+    # 4567  456. = 1456
+    # 89ab  ....
+    # cdef  ....
     #
 
     # http://tetris.wikia.com/wiki/SRS
