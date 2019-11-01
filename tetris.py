@@ -240,7 +240,8 @@ class TetrisTk:
     def __init__(self):
 
         self.tk = tk = tkinter.Tk()
-
+        self.tk.title('Tetris')
+        
         self.tetris = Tetris()
         self.display = BlockDisplay(tk, self.tetris.width, self.tetris.height)
         self.display.pack(side=tkinter.TOP, fill=tkinter.X)
