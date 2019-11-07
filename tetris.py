@@ -12,10 +12,10 @@ shapes = {
     #
     # Example (T)
     #
-    # 0123  .1..
-    # 4567  456. = 1456
-    # 89ab  ....
-    # cdef  ....
+    # 0123  ....   ....
+    # 4567  .##. = .56. = '56a9' (draw order)
+    # 89ab  .##.   .9a.
+    # cdef  ....   ....
     #
 
     # http://tetris.wikia.com/wiki/SRS
