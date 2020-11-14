@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 """
+Tetris for Python / Tkinter
+
+Ole Martin Bjorndalen
+https://github.com/olemb/tetris/
+
 http://tetris.wikia.com/wiki/Tetris_Guideline
 """
 import copy
