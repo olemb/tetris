@@ -112,12 +112,9 @@ class Tetris:
 
     def _get_next_piece(self):
         shape = next(self._random_shapes)
-        rot = 0
-        centered = self.width // 2 - 2
+        center = self.width // 2 - 2
         top = self.height - 1
-        x = centered
-        y = top
-        return Piece(shape, rot, x, y)
+        return Piece(shape, rot=0, x=center, y=top)
 
     def _pad_field(self):
         while len(self.field) < self.height:
