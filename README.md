@@ -9,7 +9,7 @@
 * `s` / `down` = move down
 * `d` / `right` = move right
 * `c` = toggle color mode / monochromo mode
-* space / escape = pause / resume / new game
+* `space` / `escape` = pause / resume / new game
 
 The scoring is a simple as it can be. You get one point for every line cleared.
 
