@@ -37,7 +37,7 @@ shapes = {
 }
 
 
-@dataclass
+@dataclass(frozen=True)
 class Piece:
     shape: str
     rot: int = 0
