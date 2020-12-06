@@ -346,6 +346,10 @@ class TetrisTk:
                 'Left': lambda: self.tetris.move('left'),
                 'Right': lambda: self.tetris.move('right'),
                 'Down': lambda: self.tetris.move('down'),
+                'w': lambda: self.tetris.move('rotleft'),
+                'a': lambda: self.tetris.move('left'),
+                's': lambda: self.tetris.move('down'),
+                'd': lambda: self.tetris.move('right'),
             })
 
         if event.keysym in commands.keys():
