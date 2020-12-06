@@ -103,13 +103,11 @@ class Tetris:
     def __init__(self, width=10, height=16):
         self.width = width
         self.height = height
-        self.field = []
-        self.piece = None
         self.game_over = False
-        self.lines = 0
-
-        self._pad_field()
+        self.score = 0
         self._random_shapes = random_shape_bag()
+
+        self.field = [[''] * self.width for _ in range(self.height)]
         self.piece = self._get_next_piece()
 
     def _get_next_piece(self):
@@ -131,21 +129,16 @@ class Tetris:
             self.field[y][x] = char
 
     def _remove_full_rows(self):
-        field = remove_full_rows(self.field)
-        lines = len(self.field) - len(field)
-        self.lines += lines
-        self.field = field
+        new_field = remove_full_rows(self.field)
+        num_rows_cleared = len(self.field) - len(new_field)
+        self.score += num_rows_cleared
+        self.field = new_field
         self._pad_field()
 
     def _place_new_piece(self):
         self.piece = self._get_next_piece()
         if not piece_fits(self.field, self.piece):
             self.game_over = True
-
-    def _freeze(self):
-        self._freeze_piece()
-        self._remove_full_rows()
-        self._place_new_piece()
 
     def _move(self, *, rot=0, dx=0, dy=0) -> bool:
         if rot:
@@ -163,7 +156,9 @@ class Tetris:
 
         tried_to_move_down = dy == -1
         if tried_to_move_down and not moved:
-            self._freeze()
+            self._freeze_piece()
+            self._remove_full_rows()
+            self._place_new_piece()
 
         return moved
 
@@ -215,8 +210,8 @@ class BlockDisplay(tkinter.Canvas):
         self.colors = True
 
     def _create_block(self, x, y):
-        # Flip Y coordinate.
-        y = self.height - y - 1
+        flipped_y = self.height - y - 1
+        y = flipped_y
         size = self.blocksize
 
         return self.create_rectangle(x * size,
@@ -305,7 +300,7 @@ class TetrisTk:
             for x, char in enumerate(row):
                 self.display.set_block(x, y, char)
 
-        self.score_view['text'] = str(self.tetris.lines)
+        self.score_view['text'] = str(self.tetris.score)
 
         if self.tetris.game_over:
             self.pause()
