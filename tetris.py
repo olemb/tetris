@@ -209,7 +209,7 @@ class BlockDisplay(tkinter.Canvas):
                                      (y+1) * size,
                                      fill='',
                                      outline='')
-    
+
 
     def set_block(self, x, y, char):
         try:
@@ -246,7 +246,7 @@ class TetrisTk:
 
         self.tk = tk = tkinter.Tk()
         self.tk.title('Tetris')
-        
+
         self.tetris = Tetris()
         self.display = BlockDisplay(tk, self.tetris.width, self.tetris.height)
         self.display.pack(side=tkinter.TOP, fill=tkinter.X)
@@ -254,14 +254,14 @@ class TetrisTk:
         self.score_view = tkinter.Label(self.tk, text='')
         self.score_view.pack(side=tkinter.TOP, fill=tkinter.X)
         self.score_view['font'] = 'Helvetica 30'
-        
+
         tk.bind('<KeyPress>', self.keypress)
 
         self.paused = True
         self.fall_id = None
         self.redraw()
         self.resume()
-        
+
         tk.mainloop()
 
     def fall(self):
@@ -282,7 +282,7 @@ class TetrisTk:
             self.tk.after_cancel(self.fall_id)
             self.fall_id = None
 
-    def redraw(self): 
+    def redraw(self):
         field = self.tetris.get_visible_field()
 
         for y, row in enumerate(field):
