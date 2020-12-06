@@ -9,7 +9,7 @@ http://tetris.wikia.com/wiki/Tetris_Guideline
 """
 import copy
 import random
-from typing import NamedTuple
+from dataclasses import dataclass, replace
 import tkinter
 
 
@@ -37,7 +37,8 @@ shapes = {
 }
 
 
-class Piece(NamedTuple):
+@dataclass
+class Piece:
     shape: str
     rot: int = 0
     x: int = 0
@@ -48,13 +49,13 @@ def move_piece(piece, *, rot=0, dx=0, dy=0):
     rot = (piece.rot + rot) % 4
     x = piece.x + dx
     y = piece.y + dy
-    return piece._replace(rot=rot, x=x, y=y)
+    return replace(piece, rot=rot, x=x, y=y)
 
 
 def get_piece_blocks(piece):
     for char in shapes[piece.shape][piece.rot % 4]:
         y, x = divmod(int(char, 16), 4)
-        yield  (piece.x + x, piece.y - y)
+        yield (piece.x + x, piece.y - y)
 
 
 def piece_fits(field, piece):
@@ -80,15 +81,22 @@ def random_shape_bag():
     bag = list(shapes)
 
     # Shuffle bag first time.
-    # First bag must start with I, L, J or T.
     while True:
         random.shuffle(bag)
+        # First bag must start with I, L, J or T.
         if bag[0] in 'IJLT':
             break
 
     while True:
         yield from bag
         random.shuffle(bag)
+
+
+def get_wallkicks(piece, *, rot=0):
+    return [
+        move_piece(piece, rot=rot, dx=dx, dy=dy)
+        for (dx, dy) in [(0, 0), (-1, 0), (1, 0), (0, -1)]
+    ]
 
 
 class Tetris:
@@ -107,8 +115,10 @@ class Tetris:
     def _get_next_piece(self):
         shape = next(self._random_shapes)
         rot = 0
-        x = (self.width // 2) - 2  # Centered.
-        y = (self.height - 1)  # All the way to the top.
+        centered = self.width // 2 - 2
+        top = self.height - 1
+        x = centered
+        y = top
         return Piece(shape, rot, x, y)
 
     def _pad_field(self):
@@ -116,40 +126,46 @@ class Tetris:
             self.field.append([''] * self.width)
 
     def _freeze_piece(self):
-        # Freeze piece onto field.
         char = self.piece.shape.lower()
         for (x, y) in get_piece_blocks(self.piece):
             self.field[y][x] = char
 
-        # Remove full rows.
+    def _remove_full_rows(self):
         field = remove_full_rows(self.field)
         lines = len(self.field) - len(field)
         self.lines += lines
         self.field = field
         self._pad_field()
 
-        # Place a new piece.
+    def _place_new_piece(self):
         self.piece = self._get_next_piece()
         if not piece_fits(self.field, self.piece):
             self.game_over = True
 
-    def _move(self, *, rot=0, dx=0, dy=0):
-        if rot != 0:
-            # If it can't rotate, try wall kicks.
-            pieces = [move_piece(self.piece, rot=rot, dx=dx, dy=dy) \
-                      for (dx, dy) in [(0, 0), (-1, 0), (1, 0), (0, -1)]]
-        else:
-            pieces = [move_piece(self.piece, dx=dx, dy=dy)]
+    def _freeze(self):
+        self._freeze_piece()
+        self._remove_full_rows()
+        self._place_new_piece()
 
-        for piece in pieces:
+    def _move(self, *, rot=0, dx=0, dy=0) -> bool:
+        if rot:
+            candidate_pieces = get_wallkicks(self.piece, rot=rot)
+        else:
+            candidate_pieces = [move_piece(self.piece, dx=dx, dy=dy)]
+
+        for piece in candidate_pieces:
             if piece_fits(self.field, piece):
                 self.piece = piece
-                return True
+                moved = True
+                break
         else:
-            if dy == -1:
-                self._freeze_piece()
+            moved = False
 
-            return False
+        tried_to_move_down = dy == -1
+        if tried_to_move_down and not moved:
+            self._freeze()
+
+        return moved
 
     def move(self, move):
         if not self.game_over:
