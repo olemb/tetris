@@ -137,7 +137,7 @@ class Tetris:
         if not piece_fits(self.field, self.piece):
             self.game_over = True
 
-    def _move(self, *, rot=0, dx=0, dy=0) -> bool:
+    def _move(self, *, rot=0, dx=0, dy=0):
         if rot:
             candidate_pieces = get_wallkicks(self.piece, rot=rot)
         else:
@@ -156,8 +156,6 @@ class Tetris:
             self._freeze_piece()
             self._remove_full_rows()
             self._place_new_piece()
-
-        return moved
 
     def move(self, move):
         if not self.game_over:
