@@ -168,16 +168,6 @@ class Tetris:
             }[move]
             self._move(**args)
 
-    def get_visible_field(self):
-        field = copy.deepcopy(self.field)
-
-        if not self.game_over:
-            char = self.piece.shape
-            for x, y in get_piece_blocks(self.piece):
-                field[y][x] = char
-
-        return field
-
 
 # http://unsoundscapes.com/elm-flatris.html
 # https://github.com/skidding/flatris/blob/master/src/constants/tetromino.js
@@ -288,12 +278,18 @@ class TetrisTk:
             self.tk.after_cancel(self.fall_id)
             self.fall_id = None
 
-    def redraw(self):
-        field = self.tetris.get_visible_field()
+    def _draw_piece(self, piece):
+        char = piece.shape
+        for x, y in get_piece_blocks(piece):
+            self.display.set_block(x, y, char)
 
-        for y, row in enumerate(field):
+    def redraw(self):
+        for y, row in enumerate(self.tetris.field):
             for x, char in enumerate(row):
                 self.display.set_block(x, y, char)
+
+        if not self.tetris.game_over:
+            self._draw_piece(self.tetris.piece)
 
         self.score_view['text'] = str(self.tetris.score)
 
