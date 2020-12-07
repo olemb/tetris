@@ -156,7 +156,7 @@ class Tetris:
             self._move(**args)
 
 
-# Colorsfrom Flatris.
+# Colors from Flatris.
 colors = {
     'I': '#3cc7d6',  # Cyan.
     'O': '#fbb414',  # Yellow.
