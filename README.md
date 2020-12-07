@@ -157,7 +157,7 @@ A few things to note here:
 
 * When a piece freezes onto the board its characters turn into lowercase. This lets the graphics engine tell falling and frozen blocks apart.
 
-Since we're use a list we can remove full lines by filtering out full rows:
+Since the field is a list we can simple filter out full rows:
 
 ```python
 field = [row for row in field if not all(row)]
