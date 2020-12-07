@@ -263,23 +263,26 @@ class TetrisTk:
             self.tk.after_cancel(self.fall_id)
             self.fall_id = None
 
-    def _draw_piece(self, piece):
+    def _draw_field(self):
+        for y, row in enumerate(self.tetris.field):
+            for x, char in enumerate(row):
+                self.display[x, y] = char
+
+    def _draw_piece(self):
+        piece = self.tetris.piece
         char = piece.shape
         for x, y in get_piece_blocks(piece):
             self.display[x, y] = char
 
     def redraw(self):
-        for y, row in enumerate(self.tetris.field):
-            for x, char in enumerate(row):
-                self.display[x, y] = char
-
+        self._draw_field()
         if not self.tetris.game_over:
-            self._draw_piece(self.tetris.piece)
-
-        self.score_view['text'] = str(self.tetris.score)
+            self._draw_piece()
 
         if self.tetris.game_over:
             self.pause()
+
+        self.score_view['text'] = str(self.tetris.score)
 
     def pause(self):
         if not self.paused:
