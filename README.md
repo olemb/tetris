@@ -106,6 +106,7 @@ To move or rotate the piece I use `dataclasses.replace()`:
 ```python
 >>> replace(piece, x=piece.x + 1)
 Piece(shape='T', rot=0, x=1, y=0)
+
 >>> replace(piece, rot=(piece.rot + 1) % 4)
 Piece(shape='T', rot=1, x=0, y=0)
 ```
