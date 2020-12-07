@@ -42,7 +42,7 @@ def move_piece(piece, *, rot=0, dx=0, dy=0):
 def get_piece_blocks(piece):
     for char in shapes[piece.shape][piece.rot % 4]:
         y, x = divmod(int(char, 16), 4)
-        yield (piece.x + x, piece.y - y)
+        yield piece.x + x, piece.y - y
 
 
 def piece_fits(field, piece):
