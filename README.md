@@ -178,6 +178,36 @@ while len(field) < height:
     field.append([''] * width)
 ```
 
+## BlockDisplay
+
+The `BlockDisplay` is a subclass of the Tkinter canvas. It's works like a very chunky pixel display where you can set the color of each pixel individually:
+
+```python
+display[x, y] = 'T'
+```
+
+The display will look up the color of the `T` piece and use it to set the fill of the rectangle at `(x, y)`. You can clear a block with:
+
+```python
+display[x, y] = ''
+```
+
+This makes it straight forward to draw the field:
+
+```python
+for x in range(width):
+    for y in range(height):
+        display[x, y] = field[y][x]
+```
+
+and the piece:
+
+```python
+for x, y in get_piece_blocks(piece):
+    display[x, y] = piece.shape
+```
+
+
 ## Future Plans
 
 I will tinker with the code from time to time but I have no plans for additional features.
