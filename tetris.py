@@ -179,28 +179,32 @@ class BlockDisplay(tkinter.Canvas):
         self.width = width
         self.height = height
         self.blocks = {}
-        self.colors = True
+        self.color_mode = True
 
     def _create_block(self, x, y):
         flipped_y = self.height - y - 1
         y = flipped_y
         size = self.blocksize
 
-        return self.create_rectangle(x * size,
-                                     y * size,
-                                     (x+1) * size,
-                                     (y+1) * size,
-                                     fill='',
-                                     outline='')
+        return self.create_rectangle(
+            x * size,
+            y * size,
+            (x + 1) * size,
+            (y + 1) * size,
+            fill='',
+            outline='',
+        )
 
-    def set_block(self, x, y, char):
+    def _get_block(self, x, y):
         try:
-            block = self.blocks[(x, y)]
+            return self.blocks[(x, y)]
         except KeyError:
             block = self._create_block(x, y)
             self.blocks[(x, y)] = block
+            return block
 
-        if self.colors:
+    def set_block(self, x, y, char):
+        if self.color_mode:
             fill = colors[char.upper()]
         else:
             if char == '':
@@ -210,6 +214,7 @@ class BlockDisplay(tkinter.Canvas):
             else:
                 fill = 'gray50'
 
+        block = self._get_block(x, y)
         self.itemconfigure(block, fill=fill)
 
     def clear(self):
