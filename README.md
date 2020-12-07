@@ -16,9 +16,9 @@ The scoring is a simple as it can be. You get one point for every line cleared.
 
 ## Motivation
 
-My motivation for is experimenting with ways of implementing Tetris in Python and having my own Tetris that's exactly the way I like it.
+I want to experiment with ways of implementing Tetris in Python and also have my own Tetris that's exactly the way I like it.
 
-I've written quite a few versions of this game over the years and I've come up with some interesting ideas techniques that I'd like to share below, as I have never seen any of these in any other versions of Tetris I have come across.
+I've written quite a few versions of this game over the years and I've come up with some interesting ideas and techniques that I'd like to share below, as I have never seen any of these in any other versions of Tetris I have come across.
 
 
 ## Monochrome mode
