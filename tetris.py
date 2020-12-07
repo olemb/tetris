@@ -99,9 +99,9 @@ class Tetris:
 
     def _get_next_piece(self):
         shape = next(self._random_shapes)
-        center = self.width // 2 - 2
+        centered = self.width // 2 - 2
         top = self.height - 1
-        return Piece(shape, rot=0, x=center, y=top)
+        return Piece(shape, rot=0, x=centered, y=top)
 
     def _pad_field(self):
         while len(self.field) < self.height:
