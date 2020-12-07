@@ -79,7 +79,7 @@ def random_shape_bag():
         random.shuffle(bag)
 
 
-def get_wallkicks(piece, *, rot=0):
+def get_wall_kicks(piece, *, rot=0):
     return [
         move_piece(piece, rot=rot, dx=dx, dy=dy)
         for dx, dy in [(0, 0), (-1, 0), (1, 0), (0, -1)]
@@ -126,7 +126,7 @@ class Tetris:
 
     def _move(self, *, rot=0, dx=0, dy=0):
         if rot:
-            candidate_pieces = get_wallkicks(self.piece, rot=rot)
+            candidate_pieces = get_wall_kicks(self.piece, rot=rot)
         else:
             candidate_pieces = [move_piece(self.piece, dx=dx, dy=dy)]
 
