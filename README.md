@@ -178,11 +178,11 @@ Rows above the full rows will automatically collapse:
 ]
 ```
 
-We then need to append as many new rows as we removed:
+We then to pad the field with as many new rows as we removed:
 
 ```python
-rows_cleared = height - len(field)
-field.extend([[''] * width for _ in range(rows_cleared)])
+while len(field) < height:
+    field.append([''] * width)
 ```
 
 ## Future Plans
