@@ -80,7 +80,7 @@ You can get coordinates with something like:
 [(0, 1), (1, 0), (1, 1), (1, 2)]
 ```
 
-Not that these are returned in `(y, x)` order due to the use of `divmod()`. You may want to flip them around to `(x, y)` before using them.
+Note that these are returned in `(y, x)` order due to the use of `divmod()`. You may want to flip them around to `(x, y)` before using them.
 
 
 ## Piece
