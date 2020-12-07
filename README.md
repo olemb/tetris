@@ -151,13 +151,13 @@ field = [
 
 A few things to note here:
 
+* The field looks upside down here. Row 0 is normally drawn at the bottom of the screen.
+
 * We can still see which shape has made up each block. Since each shape has a distinct color this makes it easy to support colors.
 
 * When a piece freezes onto the board its characters turn into lowercase. This lets the graphics engine tell falling and frozen blocks apart.
 
-* The field looks upside down here. Row 0 is normally drawn at the bottom of the screen.
-
-* Since we're use a list we can remove full lines by filtering out full rows:
+Since we're use a list we can remove full lines by filtering out full rows:
 
 ```python
 field = [row for row in field if not all(row)]
