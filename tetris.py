@@ -7,7 +7,6 @@ https://github.com/olemb/tetris/
 
 http://tetris.wikia.com/wiki/Tetris_Guideline
 """
-import copy
 import random
 from dataclasses import dataclass, replace
 import tkinter
@@ -59,13 +58,13 @@ def get_piece_blocks(piece):
 
 
 def piece_fits(field, piece):
-    w = len(field[0])
-    h = len(field)
+    width = len(field[0])
+    height = len(field)
 
     for x, y in get_piece_blocks(piece):
-        if x < 0 or x >= w:
+        if not 0 <= x < width:
             return False
-        elif y < 0 or y >= h:
+        elif not 0 <= y < height:
             return False
         elif field[y][x]:
             return False
@@ -95,7 +94,7 @@ def random_shape_bag():
 def get_wallkicks(piece, *, rot=0):
     return [
         move_piece(piece, rot=rot, dx=dx, dy=dy)
-        for (dx, dy) in [(0, 0), (-1, 0), (1, 0), (0, -1)]
+        for dx, dy in [(0, 0), (-1, 0), (1, 0), (0, -1)]
     ]
 
 
@@ -122,7 +121,7 @@ class Tetris:
 
     def _freeze_piece(self):
         char = self.piece.shape.lower()
-        for (x, y) in get_piece_blocks(self.piece):
+        for x, y in get_piece_blocks(self.piece):
             self.field[y][x] = char
 
     def _remove_full_rows(self):
@@ -179,7 +178,7 @@ colors = {
     'L': '#ed652f',  # Orange.
     'S': '#95c43d',  # Green.
     'Z': '#e84138',  # Red.
-    '':  '#ecf0f1',   # (Background color.)
+    '':  '#ecf0f1',  # (Background color.)
 }
 
 
