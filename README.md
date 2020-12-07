@@ -23,6 +23,11 @@ and frozen blocks as gray. This makes it easier to see the total shape
 of the block landscape.
 
 
+## Implementation Details
+
+I've come up with some interesting ideas and techniques that I'd like to share below.
+
+
 ## Shapes
 
 I found a very compact way to represent the piece shapes:
