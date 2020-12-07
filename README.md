@@ -178,7 +178,7 @@ Rows above the full rows will automatically collapse:
 ]
 ```
 
-We then to pad the field with as many new rows as we removed:
+We then need to pad the field with as many new rows as we removed:
 
 ```python
 while len(field) < height:
