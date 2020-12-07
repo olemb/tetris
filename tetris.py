@@ -156,8 +156,7 @@ class Tetris:
             self._move(**args)
 
 
-# http://unsoundscapes.com/elm-flatris.html
-# https://github.com/skidding/flatris/blob/master/src/constants/tetromino.js
+# Colorsfrom Flatris.
 colors = {
     'I': '#3cc7d6',  # Cyan.
     'O': '#fbb414',  # Yellow.
