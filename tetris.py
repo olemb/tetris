@@ -13,19 +13,7 @@ import tkinter
 
 
 shapes = {
-    #
-    # Example (T)
-    #
-    # 0123  ....   ....
-    # 4567  .##. = .56. = '56a9' (draw order)
-    # 89ab  .##.   .9a.
-    # cdef  ....   ....
-    #
-
-    # http://tetris.wikia.com/wiki/SRS
-    # http://tetris.wikia.com/wiki/Orientation
-
-    # Rotations are listed clockwise.
+    # See README.md for format.
     'O': ['56a9', '6a95', 'a956', '956a'],
     'I': ['4567', '26ae', 'ba98', 'd951'],
     'J': ['0456', '2159', 'a654', '8951'],
