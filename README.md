@@ -117,7 +117,7 @@ This returns a copy of the piece that I can test against the board to see if it 
 
 ## Random Shape Bag
 
-If you choose a random shape every time there will sometimes be very long stretches between each `I` piece. A common solution is to put all shapes in a bag and draw random shapes out of the bag until it's empty, and then put all the shapes back and repeat.
+If you choose a random shape every time there will sometimes be very long stretches between each `I` piece. A common solution is to put all 7 shapes in a bag and draw random shapes out of the bag until it's empty, and then repeat.
 
 I've implemented this as a generator:
 
@@ -138,33 +138,37 @@ The field is a list of lists of shapes, with empty squares as `''`. Here's a sma
 
 ```python
 field = [
-    ['J', '',  'T', 'T', 'T', 'L', 'L', 'L']
-    ['O', 'O', '',  'T', '',  'L', 'O', 'O']
-    ['O', 'O', 'I', 'I', 'I', 'I', 'O', 'O']  # Full row
-    ['',  '',  '',  'O', 'O', '',  '',  '' ]
-    ['',  '',  '',  'O', 'O', '',  '',  '' ]
+    ['j', '',  't', 't', 't', 'l', 'l', 'l']
+    ['o', 'o', '',  't', '',  'l', 'o', 'o']
+    ['o', 'o', 'i', 'i', 'i', 'i', 'o', 'o']  # Full row
+    ['',  '',  '',  'o', 'o', '',  '',  '' ]
+    ['',  '',  '',  'o', 'o', '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
 ]
 ```
 
-Note that we can still see which shape has made up each block. Since each shape has a distinct color this makes it easy to support colors in the GUI.
+A few things to note here:
 
-Note that the field looks upside down here. Row 0 is at the bottom of the screen. This makes it easy to remove full rows:
+* We can still see which shape has made up each block. Since each shape has a distinct color this makes it easy to support colors.
+
+* When a piece freezes onto the board its characters turn into lowercase. This lets the graphics engine tell falling and frozen blocks apart.
+
+* The field is upside down here. Row 0 will be drawn at bottom of the screen. This reason for this is to make it easy to remove full rows with a simple filter:
 
 ```python
-new_field = [row for row in field if not all(row)]
+field = [row for row in field if not all(row)]
 ```
 
-This will return a new field with all full lines removed.
+Rows above the full rows will automatically collapse.
 
 ```python
-new_field = [
-    ['J', '',  'T', 'T', 'T', 'L', 'L', 'L']
-    ['O', 'O', '',  'T', '',  'L', 'O', 'O']
-    ['',  '',  '',  'O', 'O', '',  '',  '' ]
-    ['',  '',  '',  'O', 'O', '',  '',  '' ]
+[
+    ['j', '',  't', 't', 't', 'l', 'l', 'l']
+    ['o', 'o', '',  't', '',  'l', 'o', 'o']
+    ['',  '',  '',  'o', 'o', '',  '',  '' ]
+    ['',  '',  '',  'o', 'o', '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
@@ -172,12 +176,11 @@ new_field = [
 ]
 ```
 
-The rows above (below in this picture) will automatically collapse. You need to add empty rows to fill up the field with something like:
+We then need to append as many new rows as we removed:
 
 ```python
-cleared_rows = len(field - new_field)
-new_field = [['' * 8] for _ in range(cleared_rows)
-field = new_field
+rows_cleared = height - len(field)
+field.extend([[''] * width for _ in range(rows_cleared)])
 ```
 
 ## Future Plans

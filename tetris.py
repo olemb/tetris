@@ -205,7 +205,6 @@ class BlockDisplay(tkinter.Canvas):
                                      fill='',
                                      outline='')
 
-
     def set_block(self, x, y, char):
         try:
             block = self.blocks[(x, y)]
