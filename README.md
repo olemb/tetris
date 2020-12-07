@@ -155,13 +155,15 @@ A few things to note here:
 
 * When a piece freezes onto the board its characters turn into lowercase. This lets the graphics engine tell falling and frozen blocks apart.
 
-* The field is upside down here. Row 0 will be drawn at bottom of the screen. This reason for this is to make it easy to remove full rows with a simple filter:
+* The field looks upside down here. Row 0 is normally drawn at the bottom of the screen.
+
+* Since we're use a list we can remove full lines by filtering out full rows:
 
 ```python
 field = [row for row in field if not all(row)]
 ```
 
-Rows above the full rows will automatically collapse.
+Rows above the full rows will automatically collapse:
 
 ```python
 [
