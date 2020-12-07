@@ -23,7 +23,7 @@ and frozen blocks as gray. This makes it easier to see the total shape
 of the block landscape.
 
 
-## Implementation Details
+## Implementation
 
 I've come up with some interesting ideas and techniques that I'd like to share below.
 
