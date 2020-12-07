@@ -198,7 +198,7 @@ class BlockDisplay(tkinter.Canvas):
             outline='',
         )
 
-    def set_block(self, x, y, char):
+    def __setitem__(self, pos, char):
         if self.color_mode:
             fill = colors[char.upper()]
         else:
@@ -209,7 +209,7 @@ class BlockDisplay(tkinter.Canvas):
             else:
                 fill = 'gray50'
 
-        block = self.blocks[(x, y)]
+        block = self.blocks[pos]
         self.itemconfigure(block, fill=fill)
 
     def clear(self):
@@ -266,12 +266,12 @@ class TetrisTk:
     def _draw_piece(self, piece):
         char = piece.shape
         for x, y in get_piece_blocks(piece):
-            self.display.set_block(x, y, char)
+            self.display[x, y] = char
 
     def redraw(self):
         for y, row in enumerate(self.tetris.field):
             for x, char in enumerate(row):
-                self.display.set_block(x, y, char)
+                self.display[x, y] = char
 
         if not self.tetris.game_over:
             self._draw_piece(self.tetris.piece)
@@ -307,7 +307,7 @@ class TetrisTk:
             self.pause()
 
     def toggle_colors(self):
-        self.display.colors = not self.display.colors
+        self.display.color_mode = not self.display.color_mode
 
     def keypress(self, event):
         commands = {
