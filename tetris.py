@@ -32,6 +32,12 @@ class Piece:
     y: int = 0
 
 
+def get_piece_blocks(piece):
+    for char in shapes[piece.shape][piece.rot % 4]:
+        y, x = divmod(int(char, 16), 4)
+        yield piece.x + x, piece.y - y
+
+
 def move_piece(piece, *, rot=0, dx=0, dy=0):
     rot = (piece.rot + rot) % 4
     x = piece.x + dx
@@ -39,10 +45,11 @@ def move_piece(piece, *, rot=0, dx=0, dy=0):
     return replace(piece, rot=rot, x=x, y=y)
 
 
-def get_piece_blocks(piece):
-    for char in shapes[piece.shape][piece.rot % 4]:
-        y, x = divmod(int(char, 16), 4)
-        yield piece.x + x, piece.y - y
+def get_wall_kicks(piece, *, rot=0):
+    return [
+        move_piece(piece, rot=rot, dx=dx, dy=dy)
+        for dx, dy in [(0, 0), (-1, 0), (1, 0), (0, -1)]
+    ]
 
 
 def piece_fits(field, piece):
@@ -58,13 +65,6 @@ def piece_fits(field, piece):
             return False
     else:
         return True
-
-
-def get_wall_kicks(piece, *, rot=0):
-    return [
-        move_piece(piece, rot=rot, dx=dx, dy=dy)
-        for dx, dy in [(0, 0), (-1, 0), (1, 0), (0, -1)]
-    ]
 
 
 def random_shape_bag():
