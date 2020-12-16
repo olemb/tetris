@@ -60,10 +60,6 @@ def piece_fits(field, piece):
         return True
 
 
-def remove_full_rows(field):
-    return [row.copy() for row in field if not all(row)]
-
-
 def random_shape_bag():
     bag = list(shapes)
 
@@ -113,10 +109,9 @@ class Tetris:
             self.field[y][x] = char
 
     def _remove_full_rows(self):
-        new_field = remove_full_rows(self.field)
-        num_rows_cleared = len(self.field) - len(new_field)
+        self.field = [row for row in self.field if not all(row)]
+        num_rows_cleared = self.height - len(self.field)
         self.score += num_rows_cleared
-        self.field = new_field
         self._pad_field()
 
     def _place_new_piece(self):
@@ -133,18 +128,15 @@ class Tetris:
         for piece in candidate_pieces:
             if piece_fits(self.field, piece):
                 self.piece = piece
-                moved = True
-                break
-        else:
-            moved = False
+                return
 
         tried_to_move_down = dy == -1
-        if tried_to_move_down and not moved:
+        if tried_to_move_down:
             self._freeze_piece()
             self._remove_full_rows()
             self._place_new_piece()
 
-    def move(self, move):
+    def move(self, movement):
         if not self.game_over:
             args = {
                 'left': {'dx': -1},
@@ -152,7 +144,7 @@ class Tetris:
                 'down': {'dy': -1},
                 'rotleft': {'rot': -1},
                 'rotright': {'rot': 1},
-            }[move]
+            }[movement]
             self._move(**args)
 
 
