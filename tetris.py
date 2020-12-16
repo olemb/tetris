@@ -60,26 +60,21 @@ def piece_fits(field, piece):
         return True
 
 
-def random_shape_bag():
-    bag = list(shapes)
-
-    # Shuffle bag first time.
-    while True:
-        random.shuffle(bag)
-        # First bag must start with I, L, J or T.
-        if bag[0] in 'IJLT':
-            break
-
-    while True:
-        yield from bag
-        random.shuffle(bag)
-
-
 def get_wall_kicks(piece, *, rot=0):
     return [
         move_piece(piece, rot=rot, dx=dx, dy=dy)
         for dx, dy in [(0, 0), (-1, 0), (1, 0), (0, -1)]
     ]
+
+
+def random_shape_bag():
+    # Make sure we start with an easy piece.
+    yield random.choice('IJLT')
+
+    bag = list(shapes)
+    while True:
+        random.shuffle(bag)
+        yield from bag
 
 
 class Tetris:
