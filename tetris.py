@@ -68,13 +68,17 @@ def piece_fits(field, piece):
 
 
 def random_shape_bag():
-    # Make sure we start with an easy piece.
-    yield random.choice('IJLT')
-
     bag = list(shapes)
+
+    # Make sure we start off the first bag with an easy piece.
     while True:
         random.shuffle(bag)
+        if bag[0] in 'IJLT':
+            break
+
+    while True:
         yield from bag
+        random.shuffle(bag)
 
 
 class Tetris:
