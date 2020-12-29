@@ -81,6 +81,10 @@ def random_shape_bag():
         random.shuffle(bag)
 
 
+def make_rows(width, height):
+    return [[''] * width for _ in range(height)]
+
+
 class Tetris:
     def __init__(self, width=10, height=16):
         self.width = width
@@ -89,14 +93,14 @@ class Tetris:
         self.score = 0
         self._random_shapes = random_shape_bag()
 
-        self.field = [[''] * self.width for _ in range(self.height)]
+        self.field = make_rows(width, height)
         self.piece = self._get_next_piece()
 
     def _get_next_piece(self):
         shape = next(self._random_shapes)
         centered = self.width // 2 - 2
         top = self.height - 1
-        return Piece(shape, rot=0, x=centered, y=top)
+        return Piece(shape, x=centered, y=top)
 
     def _place_new_piece(self):
         self.piece = self._get_next_piece()
@@ -112,11 +116,7 @@ class Tetris:
         self.field = [row for row in self.field if not all(row)]
         num_rows_cleared = self.height - len(self.field)
         self.score += num_rows_cleared
-        self._pad_field()
-
-    def _pad_field(self):
-        while len(self.field) < self.height:
-            self.field.append([''] * self.width)
+        self.field += make_rows(self.width, num_rows_cleared)
 
     def _move(self, *, rot=0, dx=0, dy=0):
         if rot:
