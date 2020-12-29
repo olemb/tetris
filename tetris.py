@@ -98,9 +98,10 @@ class Tetris:
         top = self.height - 1
         return Piece(shape, rot=0, x=centered, y=top)
 
-    def _pad_field(self):
-        while len(self.field) < self.height:
-            self.field.append([''] * self.width)
+    def _place_new_piece(self):
+        self.piece = self._get_next_piece()
+        if not piece_fits(self.field, self.piece):
+            self.game_over = True
 
     def _freeze_piece(self):
         char = self.piece.shape.lower()
@@ -113,10 +114,9 @@ class Tetris:
         self.score += num_rows_cleared
         self._pad_field()
 
-    def _place_new_piece(self):
-        self.piece = self._get_next_piece()
-        if not piece_fits(self.field, self.piece):
-            self.game_over = True
+    def _pad_field(self):
+        while len(self.field) < self.height:
+            self.field.append([''] * self.width)
 
     def _move(self, *, rot=0, dx=0, dy=0):
         if rot:
