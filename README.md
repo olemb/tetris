@@ -137,11 +137,11 @@ The field is a list of lists of shapes, with empty squares as `''`. Here's a sma
 
 ```python
 field = [
-    ['j', '',  't', 't', 't', 'l', 'l', 'l']
-    ['o', 'o', '',  't', '',  'l', 'o', 'o']
-    ['o', 'o', 'i', 'i', 'i', 'i', 'o', 'o']  # Full row
-    ['',  '',  '',  'o', 'o', '',  '',  '' ]
-    ['',  '',  '',  'o', 'o', '',  '',  '' ]
+    ['J', '',  'T', 'T', 'T', 'L', 'L', 'L']
+    ['O', 'O', '',  'T', '',  'L', 'O', 'O']
+    ['O', 'O', 'I', 'I', 'I', 'I', 'O', 'O']  # Full row
+    ['',  '',  '',  'O', 'O', '',  '',  '' ]
+    ['',  '',  '',  'O', 'O', '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
@@ -154,8 +154,6 @@ A few things to note here:
 
 * We can still see which shape has made up each block. Since each shape has a distinct color this makes it easy to support colors.
 
-* When a piece freezes onto the board its characters turn into lowercase. This lets the graphics engine tell falling and frozen blocks apart.
-
 Since the field is a list we can simple filter out full rows:
 
 ```python
@@ -166,14 +164,13 @@ Rows above the full rows will automatically collapse:
 
 ```python
 [
-    ['j', '',  't', 't', 't', 'l', 'l', 'l']
-    ['o', 'o', '',  't', '',  'l', 'o', 'o']
-    ['',  '',  '',  'o', 'o', '',  '',  '' ]
-    ['',  '',  '',  'o', 'o', '',  '',  '' ]
+    ['J', '',  'T', 'T', 'T', 'L', 'L', 'L']
+    ['O', 'O', '',  'T', '',  'L', 'O', 'O']
+    ['',  '',  '',  'O', 'O', '',  '',  '' ]
+    ['',  '',  '',  'O', 'O', '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
     ['',  '',  '',  '',  '',  '',  '',  '' ]
-
 ]
 ```
 
@@ -209,10 +206,12 @@ for x in range(width):
 and the piece:
 
 ```python
+char = piece.shape.lower()
 for x, y in get_piece_blocks(piece):
-    display[x, y] = piece.shape
+    display[x, y] = char
 ```
 
+(The active piece is drawn in lowercase to a allow the rendered to use a different style for it.)
 
 ## Future Plans
 

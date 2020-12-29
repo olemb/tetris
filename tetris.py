@@ -108,9 +108,8 @@ class Tetris:
             self.game_over = True
 
     def _freeze_piece(self):
-        char = self.piece.shape.lower()
         for x, y in get_piece_blocks(self.piece):
-            self.field[y][x] = char
+            self.field[y][x] = self.piece.shape
 
     def _remove_full_rows(self):
         self.field = [row for row in self.field if not all(row)]
@@ -195,9 +194,9 @@ class BlockDisplay(tkinter.Canvas):
             if char == '':
                 fill = colors['']
             elif char.isupper():
-                fill = 'black'
-            else:
                 fill = 'gray50'
+            else:
+                fill = 'black'
 
         block = self.blocks[pos]
         self.itemconfigure(block, fill=fill)
@@ -260,7 +259,7 @@ class TetrisTk:
 
     def _draw_piece(self):
         piece = self.tetris.piece
-        char = piece.shape
+        char = piece.shape.lower()
         for x, y in get_piece_blocks(piece):
             self.display[x, y] = char
 
