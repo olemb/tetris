@@ -275,15 +275,15 @@ class TetrisTk:
 
     def pause(self):
         if not self.paused:
-            self.paused = True
             self.display.pause()
             self.cancel_fall()
+            self.paused = True
 
     def resume(self):
         if self.paused:
-            self.paused = False
             self.display.resume()
             self.schedule_fall()
+            self.paused = False
 
     def new_game(self):
         self.tetris = Tetris()
