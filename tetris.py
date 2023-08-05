@@ -69,12 +69,11 @@ def piece_fits(field, piece):
 
 def random_shape_bag():
     bag = list(shapes)
+    random.shuffle(bag)
 
     # Make sure we start off the first bag with an easy piece.
-    while True:
+    while bag[0] not in 'IJLT':
         random.shuffle(bag)
-        if bag[0] in 'IJLT':
-            break
 
     while True:
         yield from bag
